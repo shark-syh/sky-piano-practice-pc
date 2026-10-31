@@ -1,0 +1,199 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sky Piano Practice · 天空钢琴练习器</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">♪</span>
+    <h1>Sky Piano Practice</h1>
+  </div>
+  <div class="header-main">
+    <nav class="mode-tabs">
+      <button class="tab active" data-tab="free" type="button">自由弹奏</button>
+      <button class="tab" data-tab="import" type="button">导入乐谱</button>
+      <button class="tab" data-tab="practice" type="button">练习乐谱</button>
+    </nav>
+    <label class="field">
+      <span>音色</span>
+      <select id="instrumentSelect"></select>
+    </label>
+    <label class="field">
+      <span>音量</span>
+      <input id="volume" type="range" min="0" max="1" step="0.01" value="0.75" />
+    </label>
+    <label class="field" title="界面整体缩放（字体/按钮/琴键）">
+      <span>界面</span>
+      <select id="uiScaleSelect">
+        <option value="auto">自动</option>
+        <option value="0.9">90%</option>
+        <option value="1">100%</option>
+        <option value="1.1">110%</option>
+        <option value="1.25">125%</option>
+        <option value="1.4">140%</option>
+        <option value="1.6">160%</option>
+      </select>
+    </label>
+    <button id="audioEnable" class="btn accent" type="button">启用声音</button>
+    <button id="reloadBtn" class="btn" type="button" title="强制刷新页面">⟳ 刷新</button>
+  </div>
+</header>
+
+<main>
+  <!-- ============ 自由弹奏 ============ -->
+  <section id="free" class="panel active">
+    <div class="panel-head">
+      <h2>自由弹奏</h2>
+      <div class="row">
+        <span class="hint">键盘：<kbd>Y</kbd><kbd>U</kbd><kbd>I</kbd><kbd>O</kbd><kbd>P</kbd> / <kbd>H</kbd><kbd>J</kbd><kbd>K</kbd><kbd>L</kbd><kbd>;</kbd> / <kbd>N</kbd><kbd>M</kbd><kbd>,</kbd><kbd>.</kbd><kbd>/</kbd></span>
+        <label class="field inline"><span>八度</span>
+          <select id="pitchSelect">
+            <option value="-2">-2</option>
+            <option value="-1">-1</option>
+            <option value="0" selected>0</option>
+            <option value="1">+1</option>
+            <option value="2">+2</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div class="free-stage" id="freeStage">
+      <canvas id="freeRoll" width="1200" height="300"></canvas>
+      <div class="stage-msg" id="freeMsg">弹奏时，音符会显示在这里</div>
+    </div>
+    <div class="piano compact-free" id="pianoFree"></div>
+    <div class="now-playing" id="nowPlaying">按下琴键开始 · 点击上方音轨可清空</div>
+  </section>
+
+  <!-- ============ 乐谱工作室（编辑 + 录入 + 导入） ============ -->
+  <section id="import" class="panel">
+    <div class="panel-head compact">
+      <h2>乐谱工作室</h2>
+      <span class="hint" id="editorStatus">共 0 个音符 · 0 个时间点</span>
+    </div>
+
+    <div class="studio-card">
+      <div class="position-hero">
+        <div class="pos-main">
+          <span class="pos-label">当前位置</span>
+          <strong id="wbPosition">第 1 小节 · 第 1 拍 · 第 1 格</strong>
+        </div>
+        <div class="pos-side">
+          <span id="wbNotes" class="wb-notes">当前音符：—</span>
+          <span class="hint">鼠标点击/拖动卷帘 = 移动位置 · 用键盘弹奏写入当前节 · 右键音符删除</span>
+        </div>
+      </div>
+
+      <div class="row wrap studio-toolbar">
+        <input id="editorName" class="text-input" type="text" maxlength="60" placeholder="曲名（留空自动命名）" />
+        <label class="field inline"><span>BPM</span><input id="editorBpm" class="text-input mini" type="number" min="30" max="300" value="100" /></label>
+        <label class="field inline"><span>拍/小节</span><input id="editorBeats" class="text-input mini" type="number" min="2" max="12" value="4" /></label>
+        <label class="field inline"><span>每拍分格</span>
+          <select id="editorSubdiv">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="4">4</option>
+          </select>
+        </label>
+        <label class="field inline"><span>小节数</span><input id="editorBars" class="text-input mini" type="number" min="1" max="64" value="8" /></label>
+        <label class="field inline"><span>回车</span>
+          <select id="wbStep">
+            <option value="grid">1 格</option>
+            <option value="beat" selected>1 拍</option>
+            <option value="bar">1 小节</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="row wrap studio-actions">
+        <button id="wbPrev" class="btn" type="button">◀ 上一节</button>
+        <button id="wbNext" class="btn" type="button">下一节 ▶</button>
+        <button id="wbUndo" class="btn" type="button">⌫ 撤销</button>
+        <button id="editorPlay" class="btn" type="button">▶ 试听</button>
+        <button id="editorSave" class="btn accent" type="button">保存到练习</button>
+        <button id="editorClear" class="btn" type="button">清空</button>
+      </div>
+
+      <div class="editor-scroll" id="editorScroll">
+        <canvas id="editorCanvas" width="1200" height="240"></canvas>
+      </div>
+
+      <div class="piano small compact keyboard-bottom" id="pianoWorkbench"></div>
+
+      <div class="editor-foot">
+        <span class="hint">键盘：<kbd>Y</kbd><kbd>U</kbd><kbd>I</kbd><kbd>O</kbd><kbd>P</kbd> / <kbd>H</kbd><kbd>J</kbd><kbd>K</kbd><kbd>L</kbd><kbd>;</kbd> / <kbd>N</kbd><kbd>M</kbd><kbd>,</kbd><kbd>.</kbd><kbd>/</kbd> · <kbd>Enter</kbd> 下一节 · <kbd>Backspace</kbd> 撤销</span>
+      </div>
+    </div>
+
+    <div class="import-bottom">
+      <div id="dropZone" class="dropzone compact">
+        <span class="drop-text">拖入或选择乐谱文件导入</span>
+        <button id="pickFiles" class="btn accent" type="button">选择文件</button>
+        <input id="fileInput" type="file" accept=".json,.txt,.skysheet,application/json,text/plain" multiple hidden />
+      </div>
+      <p class="hint">支持 Sky Studio / SkyMusic 导出的 .json / .txt / .skysheet；导入或保存的乐谱在「练习乐谱」页显示。</p>
+    </div>
+  </section>
+
+  <!-- ============ 练习乐谱 ============ -->
+  <section id="practice" class="panel">
+    <div class="panel-head">
+      <h2>练习乐谱</h2>
+      <div class="row wrap">
+        <label class="field inline"><span>乐谱</span><select id="practiceSheetSelect"></select></label>
+        <label class="field inline"><span>速度</span>
+          <select id="speedSelect">
+            <option value="0.5">0.5×</option>
+            <option value="0.75">0.75×</option>
+            <option value="1" selected>1×</option>
+            <option value="1.25">1.25×</option>
+            <option value="1.5">1.5×</option>
+          </select>
+        </label>
+        <label class="field inline"><span>模式</span>
+          <select id="modeSelect">
+            <option value="score" selected>演奏打分</option>
+            <option value="wait">跟弹（按下才继续）</option>
+            <option value="demo">自动示范</option>
+          </select>
+        </label>
+        <button id="startBtn" class="btn accent" type="button">开始</button>
+        <button id="resetBtn" class="btn" type="button">重来</button>
+        <button id="practiceExport" class="btn" type="button">导出</button>
+        <button id="practiceDelete" class="btn" type="button">删除</button>
+      </div>
+    </div>
+
+    <div class="library-strip" id="practiceSheetList"></div>
+
+    <div class="practice-grid">
+      <div class="stage">
+        <canvas id="roll" width="1100" height="300"></canvas>
+        <div class="stage-msg" id="stageMsg">还没有乐谱：去「乐谱工作室」用工作台录一首，或导入 .json</div>
+      </div>
+      <aside class="stats">
+        <div class="stat"><label>得分</label><strong id="statScore">0</strong></div>
+        <div class="stat"><label>连击</label><strong id="statCombo">0</strong></div>
+        <div class="stat"><label>准确率</label><strong id="statAcc">--</strong></div>
+        <div class="stat"><label>进度</label><strong id="statProgress">0 / 0</strong></div>
+        <div class="judgement" id="judgement"></div>
+        <div class="note-guide" id="noteGuide">目标音符会在这里高亮</div>
+      </aside>
+    </div>
+    <div class="piano small compact" id="pianoPractice"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>音色：钢琴 / 水钢琴 · 15 键 · 本地运行</span>
+  <span id="statusText"></span>
+</footer>
+
+<audio id="metronomeAudio" preload="auto" src="assets/samples/sheet0.wav" hidden></audio>
+<script src="app.js"></script>
+</body>
+</html>

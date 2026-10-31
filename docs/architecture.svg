@@ -1,0 +1,155 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1180" viewBox="0 0 1600 1180" font-family="'Microsoft YaHei','Segoe UI',sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#62d0ff"/>
+    </marker>
+    <marker id="arrowMuted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7f95b8"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="1180" fill="#0b1120"/>
+  <text x="60" y="62" font-size="34" font-weight="700" fill="#e9f3ff">Sky Piano Practice · 项目架构</text>
+  <text x="60" y="94" font-size="15" fill="#93a8cc">Windows 桌面形态 · Edge --app 窗口 · 本地零依赖 Node 服务 · WebAudio 采样回放 · 无构建单页</text>
+
+  <!-- ============ ① 浏览器 ============ -->
+  <g>
+    <rect x="40" y="120" width="790" height="790" rx="16" fill="#0d1628" stroke="#26385c"/>
+    <text x="64" y="152" font-size="16" font-weight="700" fill="#8fd3ff">① 浏览器窗口（Edge --app · http://127.0.0.1:8766）</text>
+
+    <rect x="64" y="176" width="742" height="78" rx="10" fill="#14243c" stroke="#36527e"/>
+    <text x="82" y="202" font-size="15" font-weight="700" fill="#dbe6fb">界面层 — index.html + style.css</text>
+    <text x="82" y="226" font-size="12.5" fill="#93a8cc">三页单屏布局（自由弹奏 / 导入乐谱 / 练习乐谱）· 深色主题 · 自适应 + 界面缩放 90%–160% / 自动</text>
+
+    <rect x="64" y="268" width="742" height="430" rx="10" fill="#101d33" stroke="#36527e"/>
+    <text x="82" y="296" font-size="15" font-weight="700" fill="#dbe6fb">app.js 运行时（原生 JS，无框架、无打包）</text>
+
+    <rect x="80" y="312" width="320" height="86" rx="9" fill="#14243c" stroke="#3a5a8c"/>
+    <text x="96" y="338" font-size="14" font-weight="700" fill="#bfe3ff">音频引擎</text>
+    <text x="96" y="360" font-size="12" fill="#9db2d4">WebAudio 采样解码</text>
+    <text x="96" y="379" font-size="12" fill="#9db2d4">复音 / 音量 / 八度</text>
+
+    <rect x="470" y="312" width="320" height="86" rx="9" fill="#14243c" stroke="#3a5a8c"/>
+    <text x="486" y="338" font-size="14" font-weight="700" fill="#bfe3ff">音色库</text>
+    <text x="486" y="360" font-size="12" fill="#9db2d4">piano / water-piano</text>
+    <text x="486" y="379" font-size="12" fill="#9db2d4">15 键 × 2 套内置采样</text>
+
+    <rect x="80" y="410" width="320" height="86" rx="9" fill="#14243c" stroke="#3a5a8c"/>
+    <text x="96" y="436" font-size="14" font-weight="700" fill="#bfe3ff">自由弹奏</text>
+    <text x="96" y="458" font-size="12" fill="#9db2d4">键盘 / 鼠标按键</text>
+    <text x="96" y="477" font-size="12" fill="#9db2d4">音轨 canvas 可视化</text>
+
+    <rect x="470" y="410" width="320" height="86" rx="9" fill="#14243c" stroke="#3a5a8c"/>
+    <text x="486" y="436" font-size="14" font-weight="700" fill="#bfe3ff">乐谱工作室</text>
+    <text x="486" y="458" font-size="12" fill="#9db2d4">卷帘 canvas · 步进光标</text>
+    <text x="486" y="477" font-size="12" fill="#9db2d4">键盘录入 · 保存到练习</text>
+
+    <rect x="80" y="508" width="320" height="86" rx="9" fill="#14243c" stroke="#3a5a8c"/>
+    <text x="96" y="534" font-size="14" font-weight="700" fill="#bfe3ff">练习引擎</text>
+    <text x="96" y="556" font-size="12" fill="#9db2d4">下落音符 canvas</text>
+    <text x="96" y="575" font-size="12" fill="#9db2d4">判定 / 连击 / 准确率 / 进度</text>
+
+    <rect x="470" y="508" width="320" height="86" rx="9" fill="#14243c" stroke="#3a5a8c"/>
+    <text x="486" y="534" font-size="14" font-weight="700" fill="#bfe3ff">乐谱库</text>
+    <text x="486" y="556" font-size="12" fill="#9db2d4">localStorage 持久化</text>
+    <text x="486" y="575" font-size="12" fill="#9db2d4">导入 / 导出 / chips 切换</text>
+
+    <rect x="80" y="606" width="710" height="62" rx="9" fill="#14243c" stroke="#3a5a8c"/>
+    <text x="96" y="630" font-size="14" font-weight="700" fill="#bfe3ff">自动刷新</text>
+    <text x="96" y="652" font-size="12" fill="#9db2d4">轮询 /__version 版本戳 → 变更时 reload；练习中/有未保存时显示提示条，右上角「⟳ 刷新」可强制刷新</text>
+
+    <rect x="80" y="718" width="320" height="60" rx="9" fill="#0f2a3f" stroke="#2f6688"/>
+    <text x="96" y="744" font-size="13.5" font-weight="700" fill="#9fe6ff">WebAudio → 系统音频输出</text>
+    <text x="96" y="764" font-size="11.5" fill="#8fb3cc">扬声器 / 耳机（无音频文件流）</text>
+
+    <rect x="470" y="718" width="320" height="60" rx="9" fill="#0f2a3f" stroke="#2f6688"/>
+    <text x="486" y="744" font-size="13.5" font-weight="700" fill="#9fe6ff">Canvas 2D 渲染</text>
+    <text x="486" y="764" font-size="11.5" fill="#8fb3cc">键盘 / 卷帘 / 音轨 / 练习舞台</text>
+  </g>
+
+  <!-- ============ ② 服务 ============ -->
+  <g>
+    <rect x="860" y="120" width="330" height="500" rx="16" fill="#0d1628" stroke="#26385c"/>
+    <text x="884" y="152" font-size="16" font-weight="700" fill="#8fd3ff">② 本地 Node 服务（零依赖）</text>
+
+    <rect x="884" y="176" width="282" height="120" rx="10" fill="#14243c" stroke="#36527e"/>
+    <text x="900" y="202" font-size="14" font-weight="700" fill="#bfe3ff">server.mjs</text>
+    <text x="900" y="224" font-size="12" fill="#9db2d4">静态文件服务（127.0.0.1:8766）</text>
+    <text x="900" y="244" font-size="12" fill="#9db2d4">/__version 版本戳 · no-cache</text>
+    <text x="900" y="264" font-size="12" fill="#9db2d4">路径穿越防护 · 写 .server.pid</text>
+
+    <rect x="884" y="316" width="282" height="100" rx="10" fill="#14243c" stroke="#36527e"/>
+    <text x="900" y="342" font-size="14" font-weight="700" fill="#bfe3ff">daemon.mjs</text>
+    <text x="900" y="364" font-size="12" fill="#9db2d4">后台 start / stop / status</text>
+    <text x="900" y="384" font-size="12" fill="#9db2d4">脱离终端运行（detached）</text>
+
+    <rect x="884" y="436" width="282" height="150" rx="10" fill="#14243c" stroke="#36527e"/>
+    <text x="900" y="462" font-size="14" font-weight="700" fill="#bfe3ff">start.cmd / stop.cmd</text>
+    <text x="900" y="484" font-size="12" fill="#9db2d4">一键启动服务 + 应用窗口</text>
+    <text x="900" y="504" font-size="12" fill="#9db2d4">Edge --app · 1280×800</text>
+    <text x="900" y="524" font-size="12" fill="#9db2d4">100% 缩放 · CDP :9222</text>
+    <text x="900" y="544" font-size="12" fill="#9db2d4">独立 profile（.browser-profile）</text>
+  </g>
+
+  <!-- ============ ③ 数据 ============ -->
+  <g>
+    <rect x="1210" y="120" width="350" height="500" rx="16" fill="#0d1628" stroke="#26385c"/>
+    <text x="1234" y="152" font-size="16" font-weight="700" fill="#8fd3ff">③ 数据与资源</text>
+
+    <rect x="1234" y="176" width="302" height="120" rx="10" fill="#14243c" stroke="#36527e"/>
+    <text x="1250" y="202" font-size="14" font-weight="700" fill="#bfe3ff">assets/instruments/</text>
+    <text x="1250" y="224" font-size="12" fill="#9db2d4">{piano, water-piano}/0–14.wav</text>
+    <text x="1250" y="244" font-size="12" fill="#9db2d4">内置采样 · 44.1kHz PCM</text>
+    <text x="1250" y="264" font-size="12" fill="#9db2d4">16bit · 由 app.js fetch 解码</text>
+
+    <rect x="1234" y="316" width="302" height="90" rx="10" fill="#14243c" stroke="#36527e"/>
+    <text x="1250" y="342" font-size="14" font-weight="700" fill="#bfe3ff">samples/*.json</text>
+    <text x="1250" y="364" font-size="12" fill="#9db2d4">内置示例：音阶 / 和弦 / 鸟之诗</text>
+    <text x="1250" y="384" font-size="12" fill="#9db2d4">Sky Studio 乐谱 JSON 子集</text>
+
+    <rect x="1234" y="426" width="302" height="90" rx="10" fill="#14243c" stroke="#36527e"/>
+    <text x="1250" y="452" font-size="14" font-weight="700" fill="#bfe3ff">localStorage</text>
+    <text x="1250" y="474" font-size="12" fill="#9db2d4">用户保存的乐谱（记忆）</text>
+    <text x="1250" y="494" font-size="12" fill="#9db2d4">界面缩放选择</text>
+
+    <rect x="1234" y="536" width="302" height="64" rx="10" fill="#141b2b" stroke="#2b3a56"/>
+    <text x="1250" y="562" font-size="14" font-weight="700" fill="#a9b8d4">.browser-profile/</text>
+    <text x="1250" y="582" font-size="12" fill="#7f95b8">运行时窗口数据（.gitignore，不入库）</text>
+  </g>
+
+  <!-- ============ ④ 测试/文档/Git ============ -->
+  <g>
+    <rect x="40" y="960" width="1520" height="150" rx="16" fill="#0d1628" stroke="#26385c"/>
+    <text x="64" y="992" font-size="16" font-weight="700" fill="#8fd3ff">④ 测试 / 文档 / 版本管理</text>
+
+    <rect x="64" y="1010" width="470" height="96" rx="10" fill="#14243c" stroke="#36527e"/>
+    <text x="80" y="1036" font-size="14" font-weight="700" fill="#bfe3ff">tests/*.mjs</text>
+    <text x="80" y="1058" font-size="12" fill="#9db2d4">CDP 端到端：布局 / 交互 / 自适应 / 自动刷新</text>
+    <text x="80" y="1080" font-size="12" fill="#9db2d4">headless Edge + 真实窗口（:9222）双通道</text>
+
+    <rect x="554" y="1010" width="330" height="96" rx="10" fill="#14243c" stroke="#36527e"/>
+    <text x="570" y="1036" font-size="14" font-weight="700" fill="#bfe3ff">docs/ + README.md</text>
+    <text x="570" y="1058" font-size="12" fill="#9db2d4">架构图 / 界面截图 / 使用说明</text>
+    <text x="570" y="1080" font-size="12" fill="#9db2d4">启动、操作、音色来源</text>
+
+    <rect x="904" y="1010" width="632" height="96" rx="10" fill="#14243c" stroke="#36527e"/>
+    <text x="920" y="1036" font-size="14" font-weight="700" fill="#bfe3ff">Git 仓库（main）→ 远端（GitHub / 自建）</text>
+    <text x="920" y="1058" font-size="12" fill="#9db2d4">源码 + assets（wav）+ samples 入库；.browser-profile / .server.pid 忽略</text>
+    <text x="920" y="1080" font-size="12" fill="#9db2d4">.gitattributes 标记二进制；.editorconfig 统一编码与换行</text>
+  </g>
+
+  <!-- ============ 连线 ============ -->
+  <g stroke="#62d0ff" stroke-width="2" fill="none">
+    <path d="M830,470 L884,470" marker-end="url(#arrow)"/>
+    <path d="M1190,470 L1234,470" marker-end="url(#arrow)"/>
+    <path d="M299,1010 L299,912" marker-end="url(#arrow)"/>
+  </g>
+  <g font-size="11.5" fill="#7f95b8">
+    <text x="838" y="460">HTTP</text>
+    <text x="1194" y="460">文件 I/O</text>
+    <text x="308" y="980">CDP :9222（截图 / 交互 / 断言）</text>
+  </g>
+
+  <!-- 数据流说明 -->
+  <text x="60" y="1148" font-size="13" fill="#9db2d4">数据流：键盘 / 鼠标 → pressKey() → WebAudio 播放 + Canvas 重绘；保存乐谱 → localStorage → 练习页 chips；改代码 → /__version 变化 → 页面自动 reload。</text>
+</svg>

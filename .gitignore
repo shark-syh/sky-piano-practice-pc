@@ -1,0 +1,12 @@
+.browser-profile/
+.server.pid
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+
+# 运行时截图（可随时重新生成，不进仓库）
+docs/live-*.png
+docs/crop-*.png
+docs/small-*.png
+tests/tmp/

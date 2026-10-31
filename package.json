@@ -1,0 +1,19 @@
+{
+  "name": "sky-piano-practice-pc",
+  "version": "1.0.0",
+  "private": true,
+  "description": "网页版钢琴练习器：15 键自由弹奏 / 乐谱编辑 / 练习打分（本地零依赖运行）",
+  "homepage": "https://github.com/shark-syh/sky-piano-practice-pc",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node daemon.mjs start",
+    "stop": "node daemon.mjs stop",
+    "status": "node daemon.mjs status",
+    "serve": "node server.mjs 8766",
+    "test:layout": "node tests/layout3.mjs",
+    "test:scale": "node tests/scale.mjs"
+  }
+}
